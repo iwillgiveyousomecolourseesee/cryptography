@@ -20,7 +20,7 @@
 
 `ECB` （Electronic Codebook，电码本）是一种加密模式，其中消息被分割成X字节长度的块，每个块都使用一个密钥分别进行加密。在该模式下，每一组的加解密都是独立的。
 
-![](C:\Users\Lenovo\Desktop\ECB漏洞利用\img\ECB原理.png)
+<img src="img\ECB原理.png"/>
 
 <center style="color:#C0C0C0">引自：对称加密 ECB 模式的漏洞利用综合实验指南</center>
 
@@ -46,7 +46,7 @@
 
   + 下载镜像
 
-    ![](C:\Users\Lenovo\Desktop\ECB漏洞利用\img\下载镜像.png)
+    <img src="img\下载镜像.png"/>
 
   + 计算校验和
 
@@ -61,29 +61,35 @@
     a7114704fe356b9538dab4e2274f7981  ecb_i386.iso
     ```
 
-    ![](C:\Users\Lenovo\Desktop\ECB漏洞利用\img\计算校验和.png)
+    <img src="img\计算校验和.png"/>
 
-    ![](C:\Users\Lenovo\Desktop\ECB漏洞利用\img\校验和对比无误.png)
+    <img src="img\校验和对比无误.png"/>
 
   + 新建一个`Linux (Oracle 32-bit)`虚拟机，将镜像导入，并设置好网络
 
-    ![](C:\Users\Lenovo\Desktop\ECB漏洞利用\img\安装镜像.png)
+    <img src="img\安装镜像.png"/>
 
-    ![](C:\Users\Lenovo\Desktop\ECB漏洞利用\img\网卡1.png)
+    
 
-    ![](C:\Users\Lenovo\Desktop\ECB漏洞利用\img\网卡2.png)
+    <img src="img\网卡1.png"/>
+
+    
+
+    <img src="img\网卡2.png"/>
 
   + 进入虚拟机，使用`ifcongig`命令查看 `IP` 地址——`192.168.56.102`
 
-    ![](C:\Users\Lenovo\Desktop\ECB漏洞利用\img\查看虚拟机ip地址.png)
+    <img src="img\查看虚拟机ip地址.png"/>
 
   + 打开谷歌浏览器，输入虚拟机 `IP` 地址进行访问
 
-    ![](C:\Users\Lenovo\Desktop\ECB漏洞利用\img\访问成功.png)
+    <img src="img\访问成功.png"/>
 
 + 创建一个账户，登录多次，观察应用程序中返回的cookie值是否发生变化
 
-  ![](C:\Users\Lenovo\Desktop\ECB漏洞利用\img\HK1登录.png)
+  <img src="img\HK1登录.png"/>
+
+  
 
   ```
   #base64解码
@@ -105,9 +111,13 @@
 
 + 创建2个名称相似的用户：`test1` 和`test2` 以及相同的密码，然后查看应用程序发送回的cookie。
 
-  ![](C:\Users\Lenovo\Desktop\ECB漏洞利用\img\test1登录.png)
+  <img src="img\test1登录.png"/>
   
-  ![](C:\Users\Lenovo\Desktop\ECB漏洞利用\img\test2登录.png)
+  
+  
+  <img src="img\test2登录.png"/>
+  
+  
   
   ```
   cuc@cuc-lab:~$ echo fvOLPBqe7bltj678jvc9rQ== | base64 -d | hexdump -C
@@ -129,7 +139,9 @@
   
 + 创建一个由相同字符组成的真正长名的用户(20个h)，然后查看应用程序发送回的cookie。
 
-  ![](C:\Users\Lenovo\Desktop\ECB漏洞利用\img\20个h登录.png)
+  <img src="img\20个h登录.png"/>
+
+  
 
   ```
   cuc@cuc-lab:~$ echo dMjkVdA0i0d0yORV0DSLR+fnK29indeGdMjkVdA0i0d0yORV0DSLRxBsm5+LNWpS | base64 -d | hexdump -C
@@ -152,7 +164,9 @@
 
   为了验证加密流具体是哪一种模式，创建一个长用户名短密码的用户：
 
-  ![](C:\Users\Lenovo\Desktop\ECB漏洞利用\img\20个k登录.png)
+  <img src="img\20个k登录.png"/>
+
+  
 
   ```
   cuc@cuc-lab:~$ echo X/M5R1BuFnxf8zlHUG4WfPEBZ+734hwG | base64 -d | hexdump -C
@@ -165,7 +179,11 @@
   | ----- | ---- | ---------------------------------- | ------------------------------------------------------------ |
   | 20个k | cuc  | `X/M5R1BuFnxf8zlHUG4WfPEBZ+734hwG` | `5f f3 39 47 50 6e 16 7c 5f f3 39 47 50 6e 16 7c f1 01 67 ee f7 e2 1c 06` |
 
-  可以看到重复字节块在前，说明使用的是**“用户名+分隔符+密码”**的模式。为了进一步确定分隔符的大小，进行多组测试：![](C:\Users\Lenovo\Desktop\ECB漏洞利用\img\1234登录.png)
+  可以看到重复字节块在前，说明使用的是**“用户名+分隔符+密码”**的模式。为了进一步确定分隔符的大小，进行多组测试：
+
+  <img src="img\1234登录.png"/>
+
+  
 
   ```
   cuc@cuc-lab:~$ echo W62PbquqiOk= | base64 -d | hexdump -C
@@ -185,7 +203,9 @@
 
 + 创建一个用户，它将允许您通过删除加密的数据来以管理员身份登录。
 
-  ![](C:\Users\Lenovo\Desktop\ECB漏洞利用\img\admin.png)
+  <img src="img\admin.png"/>
+
+  
 
   ```
   #解密
@@ -205,11 +225,11 @@
   document.cookie='auth=suJbfc8eQj9rj678jvc9rQ==';
   ```
 
-  ![](C:\Users\Lenovo\Desktop\ECB漏洞利用\img\修改cookie.png)
+  <img src="img\修改cookie.png"/>
 
   刷新页面后成功以管理员身份登录：
 
-  ![](C:\Users\Lenovo\Desktop\ECB漏洞利用\img\管理员身份登录.png)
+  <img src="img\管理员身份登录.png"/>
 
 + 创建一个用户，通过交换加密块实现以管理员身份登录。
 
@@ -234,9 +254,11 @@
   document.cookie='auth=yHHq5c29KfG1BlFFazd3ekwOazhe/zD+';
   ```
 
-  ![](C:\Users\Lenovo\Desktop\ECB漏洞利用\img\交换密码块登录成功.png)
+  <img src="img\交换密码块登录成功.png"/>
 
-+ **实验小结：**通过上述实验可以知道通过篡改加密信息访可以问其他用户，并且加密不能作为签名的替代品。了解了如何使用`ECB`加密来获得对解密信息的控制。
+  
+
++ **实验小结：** 通过上述实验可以知道通过篡改加密信息访可以问其他用户，并且加密不能作为签名的替代品。了解了如何使用`ECB`加密来获得对解密信息的控制。
 
 ## **实验遇到的问题及解决办法**
 
